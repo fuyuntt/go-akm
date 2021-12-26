@@ -1,4 +1,4 @@
-module go-auto-mouse
+module go-akm
 
 go 1.17
 
