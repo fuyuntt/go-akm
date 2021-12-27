@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/karalabe/hid"
 	"math/rand"
+	"sync"
 	"time"
 )
 
@@ -14,6 +15,7 @@ const (
 )
 
 var device *hid.Device
+var devLock sync.Mutex
 
 func OpenDevice() error {
 	deviceList := hid.Enumerate(vid, pid)
@@ -39,6 +41,8 @@ func WriteData(data []byte) error {
 	if device == nil {
 		return DeviceNotOpen
 	}
+	devLock.Lock()
+	defer devLock.Unlock()
 	_, err := device.Write(data)
 	return err
 }
