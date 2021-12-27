@@ -1,4 +1,4 @@
-module go-akm
+module github.com/fuyuntt/go-akm
 
 go 1.17
 
