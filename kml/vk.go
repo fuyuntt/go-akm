@@ -87,7 +87,7 @@ const (
 type MButton uint8
 
 const (
-	LButton      MButton = 0
-	RButton      MButton = 1
-	MiddleButton MButton = 2
+	MbLeft   MButton = 0
+	MbRight  MButton = 1
+	MbMiddle MButton = 2
 )
