@@ -3,7 +3,7 @@ package kml
 import "sync"
 
 var mouseLock sync.Mutex
-var mouseState = []uint8{2, 0, 0, 0, 0, 0, 0, 0, 0}
+var mouseState = []byte{2, 0, 0, 0, 0, 0, 0, 0, 0}
 
 func PressButton(button MButton) error {
 	mouseLock.Lock()
@@ -17,6 +17,7 @@ func ReleaseButton(button MButton) error {
 	mouseState[1] &= ^(1 << button)
 	return WriteData(mouseState)
 }
+
 func ClickButton(button MButton) error {
 	err := PressButton(button)
 	if err != nil {
@@ -25,26 +26,22 @@ func ClickButton(button MButton) error {
 	randSleep()
 	return ReleaseButton(button)
 }
-func MouseMoveX(x int8) error {
+
+func MouseMove(x, y int8) error {
 	mouseLock.Lock()
 	defer mouseLock.Unlock()
-	mouseState[2] = uint8(x)
+	mouseState[2] = byte(x)
+	mouseState[3] = byte(y)
 	err := WriteData(mouseState)
 	mouseState[2] = 0
-	return err
-}
-func MouseMoveY(y int8) error {
-	mouseLock.Lock()
-	defer mouseLock.Unlock()
-	mouseState[3] = uint8(y)
-	err := WriteData(mouseState)
 	mouseState[3] = 0
 	return err
 }
+
 func MouseWheel(w int8) error {
 	mouseLock.Lock()
 	defer mouseLock.Unlock()
-	mouseState[4] = uint8(w)
+	mouseState[4] = byte(w)
 	err := WriteData(mouseState)
 	mouseState[4] = 0
 	return err

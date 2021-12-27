@@ -3,7 +3,7 @@ package kml
 import "sync"
 
 var kbLock sync.Mutex
-var keyState = []uint8{1, 0, 0, 0, 0, 0, 0, 0, 0}
+var keyState = []byte{1, 0, 0, 0, 0, 0, 0, 0, 0}
 
 func PressKey(vk Vk) error {
 	kbLock.Lock()
@@ -13,7 +13,7 @@ func PressKey(vk Vk) error {
 	} else {
 		for i := 3; i < 9; i++ {
 			if keyState[i] == 0 {
-				keyState[i] = uint8(vk)
+				keyState[i] = byte(vk)
 				break
 			}
 		}

@@ -47,6 +47,7 @@ func WriteData(data []byte) error {
 	return err
 }
 
+// sleep 50~70 ms
 func randSleep() {
 	r := 50 + rand.Intn(20)
 	time.Sleep(time.Duration(r) * time.Millisecond)
