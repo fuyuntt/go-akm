@@ -12,7 +12,7 @@ func PressKey(vk Vk) error {
 		keyState[1] |= 1 << (vk - VkLCtrl)
 	} else {
 		for i := 3; i < 9; i++ {
-			if keyState[i] == 0 {
+			if keyState[i] == 0 || keyState[i] == byte(vk) {
 				keyState[i] = byte(vk)
 				break
 			}
@@ -27,15 +27,9 @@ func ReleaseKey(vk Vk) error {
 	if vk >= VkLCtrl {
 		keyState[1] &= ^(1 << (vk - VkLCtrl))
 	} else {
-		var move bool
 		for i := 3; i < 9; i++ {
-			if keyState[i] == 0 {
-				break
-			} else if move {
-				keyState[i-1] = keyState[i]
-			} else if keyState[i] == uint8(vk) {
+			if keyState[i] == byte(vk) {
 				keyState[i] = 0
-				move = true
 			}
 		}
 	}
